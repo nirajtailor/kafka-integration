@@ -1,0 +1,29 @@
+server:
+  port: 8010
+
+management.endpoints.web.exposure.include: '*'
+
+spring:
+  application:
+    name: kafka-broker
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      #to which group this consumer belongs.
+      group-id: group-id
+      auto-offset-reset: earliest
+#      earliest will cause the consumer to fetch records from the beginning of offset i.e from zero.
+#      latest will cause the consumer to fetch records from the new records. By new records mean those created after the consumer group became active.
+      key-deserializer: org.apache.kafka.common.serialization.UUIDDeserializer
+#      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.UUIDSerializer
+#      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+app.config:
+  Kafka-topics:
+    first: dev-FirstTopic
+    second: dev-SecondTopic
